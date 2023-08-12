@@ -12,7 +12,10 @@ app.get("/", async (req, res) => {
   const { registrationCode, password } = req.body;
 
   // Inicia uma nova instancia do navegador
-  const browser = await puppeteer.launch({ headless: "new" });
+  const browser = await puppeteer.launch({
+    headless: "new",
+    args: ["--no-sandbox"],
+  });
 
   // Abre uma aba
   const page = await browser.newPage();
