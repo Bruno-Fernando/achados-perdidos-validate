@@ -3,7 +3,7 @@ const puppeteer = require("puppeteer");
 
 const app = express();
 
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT || 3000;
 const URL = "https://pre.ufcg.edu.br:8443/ControleAcademicoOnline/";
 
 app.use(express.json());
