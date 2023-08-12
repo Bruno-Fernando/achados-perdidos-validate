@@ -1,5 +1,7 @@
 const express = require("express");
-const puppeteer = require("puppeteer");
+// const puppeteer = require("puppeteer");
+const puppeteer = require("puppeteer-extra");
+const StealthPlugin = require("puppeteer-extra-plugin-stealth");
 
 const app = express();
 
@@ -7,6 +9,7 @@ const PORT = process.env.PORT || 3000;
 const URL = "https://pre.ufcg.edu.br:8443/ControleAcademicoOnline/";
 
 app.use(express.json());
+puppeteer.use(StealthPlugin());
 
 app.get("/", async (req, res) => {
   const { registrationCode, password } = req.body;
