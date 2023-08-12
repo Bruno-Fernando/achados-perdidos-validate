@@ -17,21 +17,27 @@ app.get("/", async (req, res) => {
     args: ["--no-sandbox"],
   });
 
+  console.log("abriu o navegador");
+
   // Abre uma aba
   const page = await browser.newPage();
+  console.log("abriu uma nova aba");
 
   // Vai para o controle academico
   await page.goto(URL);
+  console.log("chegou no controle academico");
 
   // Digita a matricula e a senha nos campos adequados
   await page.type("#login", registrationCode);
   await page.type("#senha", password);
+  console.log("digitou login e senha");
 
   // Submete o form contendo matricula e senha e espera o retorno da api
   await Promise.all([
     page.click("button[type=submit]"),
     page.waitForNavigation({ waitUntil: "networkidle2" }),
   ]);
+  console.log("fez o submit");
 
   // Caso o login tenha acontecido com sucesso, procura na home do
   // controle academico o número de matricula, caso esteja igual
@@ -42,6 +48,7 @@ app.get("/", async (req, res) => {
       .querySelector(".col-sm-9 , .col-xs-7")
       ?.innerHTML.split(" ")[0];
 
+    console.log("verificou se foi autenticado");
     if (scrapedRegistrationCode === reqRegistrationCode) {
       return true;
     } else {
