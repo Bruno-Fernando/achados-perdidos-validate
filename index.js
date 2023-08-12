@@ -2,6 +2,7 @@ const express = require("express");
 // const puppeteer = require("puppeteer");
 const puppeteer = require("puppeteer-extra");
 const StealthPlugin = require("puppeteer-extra-plugin-stealth");
+const RecaptchaPlugin = require("puppeteer-extra-plugin-recaptcha");
 
 const app = express();
 
@@ -10,6 +11,14 @@ const URL = "https://pre.ufcg.edu.br:8443/ControleAcademicoOnline/";
 
 app.use(express.json());
 puppeteer.use(StealthPlugin());
+puppeteer.use(
+  RecaptchaPlugin({
+    provider: {
+      id: "2captcha",
+      token: process.env.CAPTCHA_KEY,
+    },
+  })
+);
 
 app.get("/", async (req, res) => {
   const { registrationCode, password } = req.body;
@@ -38,6 +47,7 @@ app.get("/", async (req, res) => {
   // Submete o form contendo matricula e senha e espera o retorno da api
   await Promise.all([
     page.click("button[type=submit]"),
+    page.solveRecaptchas(),
     page.waitForNavigation({ waitUntil: "networkidle2" }),
   ]);
   console.log("fez o submit");
