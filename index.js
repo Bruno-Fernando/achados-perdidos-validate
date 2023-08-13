@@ -1,5 +1,5 @@
 const express = require("express");
-// const puppeteer = require("puppeteer");
+const cors = require("cors");
 const puppeteer = require("puppeteer-extra");
 const StealthPlugin = require("puppeteer-extra-plugin-stealth");
 const RecaptchaPlugin = require("puppeteer-extra-plugin-recaptcha");
@@ -10,6 +10,11 @@ const PORT = process.env.PORT || 3000;
 const URL = "https://pre.ufcg.edu.br:8443/ControleAcademicoOnline/";
 
 app.use(express.json());
+app.use(
+  cors({
+    origin: ["http://localhost:3000", "https://achados-perdidos.vercel.app"],
+  })
+);
 puppeteer.use(StealthPlugin());
 puppeteer.use(
   RecaptchaPlugin({
