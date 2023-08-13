@@ -25,8 +25,8 @@ puppeteer.use(
   })
 );
 
-app.get("/", async (req, res) => {
-  const { registrationCode, password } = req.body;
+app.post("/", async (req, res) => {
+  const { registrationCode, password } = req.body.data;
 
   // Inicia uma nova instancia do navegador
   const browser = await puppeteer.launch({
